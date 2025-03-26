@@ -3,12 +3,13 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_DATABASE: intuitive_data
     command: --max_allowed_packet=128M
     networks:
       - my_network
     ports:
       - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
 
   app:
     build: .
