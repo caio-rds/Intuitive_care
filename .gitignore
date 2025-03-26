@@ -14,3 +14,5 @@ frontend/node_modules
 
 etl/.idea
 etl/.venv
+
+__pycache__/
