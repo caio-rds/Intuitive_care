@@ -29,7 +29,6 @@ body {
   align-items: flex-start;
   min-width: 320px;
   min-height: 100vh;
-  overflow: hidden;
 }
 
 h1 {
@@ -62,7 +61,6 @@ button:focus-visible {
 
 #app {
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 

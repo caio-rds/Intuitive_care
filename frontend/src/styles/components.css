@@ -1,0 +1,245 @@
+@import './variables.css';
+
+.app-header {
+  background-color: var(--surface);
+  padding: 1.5rem 2rem;
+  box-shadow: var(--nm-shadow-small);
+  position: relative;
+  z-index: 10;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.app-header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.025em;
+}
+
+.search-container {
+  background: linear-gradient(
+    180deg,
+    var(--surface-base) 0%,
+    var(--surface-light) 100%
+  );
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  box-shadow: var(--sk-shadow-small);
+  border-bottom: 1px solid var(--border);
+}
+
+.nm-input-group {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  gap: 1rem;
+}
+
+.sk-input-group {
+  display: flex;
+  width: 100%;
+  max-width: 800px;
+  gap: 1rem;
+}
+
+.mock-data-notice {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  background-color: var(--surface-light);
+  color: var(--danger);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: var(--sk-shadow-small);
+  border: 1px solid rgba(234, 67, 53, 0.2);
+}
+
+.content-area {
+  flex: 1;
+  padding: 2rem;
+  max-width: var(--content-max-width);
+  width: 100%;
+  margin: 0 auto;
+}
+
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+}
+
+.result-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.result-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--primary) 0%,
+    var(--primary-light) 100%
+  );
+  transition: transform var(--transition-fast);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.result-card:hover::after {
+  transform: scaleX(1);
+}
+
+.result-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.result-header h3 {
+  font-size: 1.125rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--primary-dark);
+}
+
+.result-info {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.location {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.result-action {
+  color: var(--primary);
+  height: 100%;
+  display: flex;
+  align-items: center;
+  transition: transform var(--transition-fast);
+}
+
+.result-card:hover .result-action {
+  transform: translateX(3px);
+}
+
+.details-view {
+  padding: 0;
+  overflow: hidden;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, #f8f8f8 0%, #f0f0f0 100%);
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.details-header h2 {
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  color: var(--primary-dark);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: var(--text-tertiary);
+  text-align: center;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--sk-shadow-medium);
+  border: 1px solid var(--border);
+}
+
+.empty-state svg {
+  margin-bottom: 1.5rem;
+  opacity: 0.5;
+  color: var(--primary);
+}
+
+.no-results {
+  padding: 3rem 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--sk-inset-shadow);
+  border: 1px solid var(--border);
+}
+
+.no-results svg {
+  color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .nm-input-group {
+    flex-direction: column;
+  }
+
+  .sk-input-group {
+    flex-direction: column;
+  }
+
+  .content-area {
+    padding: 1rem;
+  }
+
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .details-header {
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .details-header h2 {
+    margin-left: 0;
+  }
+}
