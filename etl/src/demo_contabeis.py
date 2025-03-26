@@ -30,33 +30,6 @@ cursor = db.cursor()
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-def create_table():
-    try:
-        cursor.execute("""CREATE TABLE IF NOT EXISTS demos_contabeis (
-                       id INT AUTO_INCREMENT PRIMARY KEY,
-                       dateTime DATE NOT NULL,
-                       reg_ans INT NOT NULL,
-                       cd_conta_contabil INT NOT NULL,
-                       descricao_conta VARCHAR(255) NOT NULL,
-                       vl_saldo_inicial DECIMAL(20,2) NOT NULL,
-                       vl_debito DECIMAL(20,2)
-                       )""")
-        logging.info("Table demos_contabeis created successfully")
-    except Error as e:
-        logging.error(f"The error '{e}' occurred")
-
-
-def create_connection():
-    new_db = None
-    try:
-        new_db = mysql.connector.connect(host='localhost',user='root',passwd='',database='intuitive_care')
-        logging.info("Connection to MySQL DB successful")
-    except Error as e:
-        logging.error(e)
-
-    return new_db
-
-
 
 data_dir = '../data/financial'
 
@@ -110,7 +83,6 @@ def transform_and_insert(filename_p):
 
 
 
-create_table()
 for filename in os.listdir(data_dir):
     if filename.endswith('.csv'):
         transform_and_insert(filename)

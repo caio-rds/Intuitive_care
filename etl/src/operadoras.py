@@ -30,41 +30,6 @@ def create_connection():
 con = create_connection()
 
 
-def create_table(connection):
-    crs = connection.cursor()
-    try:
-        crs.execute("""
-             CREATE TABLE IF NOT EXISTS operadoras (
-                 id INT AUTO_INCREMENT PRIMARY KEY,
-                 registro_ans VARCHAR(6) NOT NULL,
-                 cnpj VARCHAR(18) NOT NULL,
-                 razao_social VARCHAR(255) NOT NULL,
-                 nome_fantasia VARCHAR(255),
-                 modalidade VARCHAR(50),
-                 logradouro VARCHAR(40) NOT NULL,
-                 numero VARCHAR(20) NOT NULL,
-                 complemento VARCHAR(40),
-                 bairro VARCHAR(40) NOT NULL,
-                 cidade VARCHAR(40) NOT NULL,
-                 uf VARCHAR(2) NOT NULL,
-                 cep VARCHAR(8) NOT NULL,
-                 ddd VARCHAR(4),
-                 telefone VARCHAR(20),
-                 fax VARCHAR(20),
-                 email VARCHAR(255),
-                 representante_legal VARCHAR(50) NOT NULL,
-                 cargo_representante VARCHAR(40) NOT NULL,
-                 regiao_operacao INT,
-                 data_registro DATE NOT NULL
-             )
-         """)
-        connection.commit()
-        crs.close()
-        logging.info("Table created successfully")
-    except Error as e:
-        logging.error(e)
-
-
 def parse_date(date_str):
     for fmt in ('%Y-%m-%d', '%d/%m/%Y'):
         try:
@@ -74,7 +39,6 @@ def parse_date(date_str):
     raise ValueError(f"Date format for {date_str} is not supported")
 
 with open("../data/Relatorio_cadop.csv", mode='r', encoding='utf-8') as file:
-    create_table(con)
     csv_reader = csv.reader(file, delimiter=';')
     next(csv_reader)  # Skip the header
     logging.info("Skipping the header")
