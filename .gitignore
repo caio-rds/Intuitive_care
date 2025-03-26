@@ -1,0 +1,16 @@
+.idea/*
+
+*.xml
+*.iml
+.venv/
+.env
+*.misc
+
+backend/.idea
+backend/.venv
+
+frontend/.idea
+frontend/node_modules
+
+etl/.idea
+etl/.venv
