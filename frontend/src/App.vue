@@ -34,36 +34,68 @@ const inputValue = ref('');
 const responseData = ref<ResponseItem[]>([]);
 const selectedValue = ref<ResponseItem | null>(null);
 const usingMockData = ref(false);
+const searchNotFound = ref(false);
+
+axios.interceptors.response.use(
+    response => response,
+    error => {
+      if (error.response && error.response.data.detail === 'No organization found') {
+        // Suprimir o log de erro para "No organization found"
+        return Promise.reject(error);
+      }
+      // Manter o log de erro para outros tipos de erro
+      console.error('Erro ao fazer o request:', error);
+      return Promise.reject(error);
+    }
+);
 
 const fetchData = async () => {
   try {
     usingMockData.value = false;
+    if (!inputValue.value.trim()) {
+      responseData.value = [];
+      searchNotFound.value = false;
+      return;
+    }
     const response = await axios.get(
-      `http://localhost:8000/search?name=${inputValue.value}`,
+        `${import.meta.env.VITE_API_URL}/search?name=${inputValue.value}`,
+        { headers: { "Access-Control-Allow-Origin": "*" } }
     );
-    responseData.value = response.data.sort(
-      (a: ResponseItem, b: ResponseItem) =>
-        a.razao_social.localeCompare(b.razao_social),
-    );
-  } catch (error) {
-    console.error('Erro ao fazer o request, usando dados mock:', error);
-    // Filter mock data based on input value if provided
-    if (inputValue.value.trim()) {
-      const searchTerm = inputValue.value.toLowerCase();
-      responseData.value = mockData
-        .filter(
-          (item) =>
-            item.razao_social.toLowerCase().includes(searchTerm) ||
-            (item.nome_fantasia &&
-              item.nome_fantasia.toLowerCase().includes(searchTerm)),
-        )
-        .sort((a, b) => a.razao_social.localeCompare(b.razao_social));
-    } else {
-      responseData.value = [...mockData].sort((a, b) =>
-        a.razao_social.localeCompare(b.razao_social),
+    if (response.status === 200) {
+      responseData.value = response.data.sort(
+          (a: ResponseItem, b: ResponseItem) =>
+              a.razao_social.localeCompare(b.razao_social)
       );
     }
-    usingMockData.value = true;
+  } catch (error: any) {
+    if (error.response && error.response.data.detail === 'No organization found') {
+      responseData.value = [];
+      searchNotFound.value = true;
+    } else {
+      if (inputValue.value.trim()) {
+        const searchTerm = inputValue.value.toLowerCase();
+        responseData.value = mockData
+            .filter(
+                (item) =>
+                    item.razao_social.toLowerCase().includes(searchTerm) ||
+                    (item.nome_fantasia &&
+                        item.nome_fantasia.toLowerCase().includes(searchTerm))
+            )
+            .map((item) => item as ResponseItem)
+            .sort((a, b) => a.razao_social.localeCompare(b.razao_social));
+            if (responseData.value.length === 0) {
+              searchNotFound.value = true;
+            }
+      } else {
+        responseData.value = [...mockData]
+            .map((item) => item as ResponseItem)
+            .sort((a, b) => a.razao_social.localeCompare(b.razao_social));
+        if (responseData.value.length === 0) {
+          searchNotFound.value = true;
+        }
+      }
+      usingMockData.value = true;
+    }
   }
 };
 </script>
@@ -149,7 +181,7 @@ const fetchData = async () => {
         </div>
         <div v-else>
           <div
-            v-if="responseData.length === 0 && inputValue"
+            v-if="searchNotFound && inputValue"
             class="no-results sk-inset"
           >
             <svg
