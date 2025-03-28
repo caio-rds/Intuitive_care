@@ -12,12 +12,9 @@ def create_connection():
         connection = mysql.connector.connect(
             host="localhost",
             user="root",
-            passwd=""
+            passwd="",
+            database="intuitive_care"
         )
-        crs = connection.cursor()
-        crs.execute("CREATE DATABASE IF NOT EXISTS intuitive_care")
-        crs.close()
-        connection.database = "intuitive_care"
         logging.info("Connection to MySQL DB successful")
     except Error as e:
         logging.error(f"The error '{e}' occurred")
