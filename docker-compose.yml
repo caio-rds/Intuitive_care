@@ -1,0 +1,35 @@
+services:
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    command: --max_allowed_packet=128M
+    networks:
+      - my_network
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./backend
+    environment:
+      DATABASE_URL: mysql+pymysql://root@db/intuitive_care
+    ports:
+      - "8000:8000"
+    networks:
+      - my_network
+
+  frontend:
+    build: ./frontend
+    environment:
+      VITE_API_URL: http://localhost:8000
+    ports:
+      - "5173:5173"
+    networks:
+      - my_network
+    command: ["npm", "run", "start", "--", "--host"]
+
+networks:
+  my_network:
+    driver: bridge
