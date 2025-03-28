@@ -39,8 +39,15 @@ async def say_hello(name: str = None):
     if not name:
         raise HTTPException(status_code=400, detail="Name is required")
 
-    org = db.query(OperadoraBase).filter(OperadoraBase.razao_social.like(f"%{name}%")).all()
+
+
+    org = db.query(OperadoraBase).filter(
+        (OperadoraBase.razao_social.like(f"%{name}%")) |
+        (OperadoraBase.nome_fantasia.like(f"%{name}%"))
+    ).all()
     if not org:
+        db.close()
         raise HTTPException(status_code=404, detail="No organization found")
 
+    db.close()
     return org
