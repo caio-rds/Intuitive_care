@@ -1,4 +1,4 @@
-import pandas as pd
+import csv
 import re
 from PyPDF2 import PdfReader
 
@@ -75,12 +75,13 @@ def verify_pdf_extraction():
         print("Nenhum dado foi extraído do PDF.")
         return
 
-    # Criar um DataFrame do pandas e salvar em um arquivo CSV
-    df = pd.DataFrame(data, columns=["PROCEDIMENTO", "RN(alteração)", "VIGÊNCIA", "OD", "AMB", "HCO", "HSO", "REF", "PAC", "DUT", "SUBGRUPO", "GRUPO", "CAPÍTULO"])
+    # Salvando o DataFrame em CSV com cabeçalhos
+    with open(csv_output_path, mode='w', newline='', encoding='utf-8') as file:
+        writer = csv.writer(file)
+        writer.writerow(headers)  # Escrever os cabeçalhos
+        writer.writerows(data)  # Escrever os dados
 
-    # **Garantir que o DataFrame tenha os headers corretos ao salvar**
-    print(df.head())  # Visualizar os dados antes de salvar
-    df.to_csv(csv_output_path, index=False, header=True, columns=headers)  # header=True para garantir que os headers sejam salvos corretamente
+    print(f"Dados extraídos e salvos em {csv_output_path}")
 
 # Verificando o PDF e salvando os dados em um arquivo CSV
 verify_pdf_extraction()
