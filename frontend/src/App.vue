@@ -20,9 +20,7 @@ export type ResponseItem = {
   cidade: string;
   uf: string;
   cep: string;
-  ddd?: string;
   telefone?: string;
-  fax?: string;
   email?: string;
   representante_legal: string;
   cargo_representante: string;
