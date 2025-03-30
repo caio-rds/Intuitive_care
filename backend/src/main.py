@@ -9,6 +9,43 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from src.models.operadoras import Operadora
 
+mock_data: list[Operadora] = []
+
+file_path = os.path.join(os.path.dirname(__file__), "mock.csv")
+
+with open(file_path, mode="r", encoding="utf-8") as file:
+    reader = csv.reader(file, delimiter=';')
+    next(reader)
+    for row in reader:
+        data_registro = None
+        if row[19]:
+            try:
+                data_registro = datetime.strptime(row[19], "%d/%m/%Y").date()
+            except ValueError:
+                data_registro = datetime.strptime(row[19], "%Y-%m-%d").date()
+        mock_data.append(
+            Operadora(
+                id=int(row[0]),
+                registro_ans=row[1],
+                cnpj=row[1],
+                razao_social=row[2],
+                nome_fantasia=row[3],
+                modalidade=row[4],
+                logradouro=row[5],
+                numero=row[6],
+                complemento=row[7],
+                bairro=row[8],
+                cidade=row[9],
+                uf=row[10],
+                cep=row[11],
+                telefone=f"{row[12]} {row[13]}",
+                email=row[15],
+                representante_legal=row[16],
+                cargo_representante=row[17],
+                regiao_operacao=int(row[18]) if row[18] else None,
+                data_registro=data_registro,
+            )
+        )
 
 app = FastAPI(
     title="Intuitive Care API",
@@ -37,9 +74,15 @@ async def root():
 
 
 @app.get("/search", response_model_exclude_none=True, response_model=list[Operadora])
-async def say_hello(name: str = None):
+async def say_hello(name: str = None, mock: bool = False) -> list[Operadora]:
     if not name:
         raise HTTPException(status_code=400, detail="Name is required")
+
+    if mock:
+        org = [item for item in mock_data if name.lower() in item.nome_fantasia.lower()]
+        if not org:
+            raise HTTPException(status_code=404, detail="No organization found")
+        return org
 
     with SessionLocal() as db:
         org = db.query(OperadoraBase).filter(
@@ -67,7 +110,7 @@ async def say_hello(name: str = None):
                     bairro=item.bairro,
                     cidade=item.cidade,
                     uf=item.uf,
-                    telefone=item.telefone,
+                    telefone=f"{item.ddd} {item.telefone}",
                     email=item.email,
                     representante_legal=item.representante_legal,
                     cargo_representante=item.cargo_representante,
@@ -76,48 +119,4 @@ async def say_hello(name: str = None):
                 )
             )
     db.close()
-    return response
-
-
-@app.get("/search_mock", response_model_exclude_none=True, response_model=list[Operadora])
-async def search_mock(name: str = None):
-    if not name:
-        raise HTTPException(status_code=400, detail="Name is required")
-
-    file_path = os.path.join("src", "mock", "Relatorio_cadop.csv")
-    response: list[Operadora] = []
-
-    with open(file_path, mode="r", encoding="utf-8") as file:
-        reader = csv.reader(file, delimiter=';')
-        for row in reader:
-            razao_social = row[2]
-            nome_fantasia = row[3]
-            if name.lower() in razao_social.lower() or name.lower() in nome_fantasia.lower():
-                response.append(
-                    Operadora(
-                        id=int(row[0]),
-                        registro_ans=row[1],
-                        cnpj=row[1],
-                        razao_social=razao_social,
-                        nome_fantasia=nome_fantasia,
-                        modalidade=row[4],
-                        logradouro=row[5],
-                        numero=row[6],
-                        complemento=row[7],
-                        bairro=row[8],
-                        cidade=row[9],
-                        uf=row[10],
-                        cep=row[11],
-                        telefone=f"{row[12]} {row[13]}",
-                        email=row[15],
-                        representante_legal=row[16],
-                        cargo_representante=row[17],
-                        regiao_operacao=int(row[18]),
-                        data_registro=datetime.strptime(row[19], "%d/%m/%Y").date() if row[19] else None,
-                    )
-                )
-
-    if not response:
-        raise HTTPException(status_code=404, detail="No organization found")
-
     return response
