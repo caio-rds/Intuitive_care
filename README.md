@@ -21,6 +21,8 @@
 >
 > **FastAPI** *(Python 3.13)* para Consulta dos Dados via **Requisições HTTP**.
 >
+> **MySQL** com **SQLAlchemy** para *ORM*
+>
 >**VueJS** com *TypeScript e Vite* para o **WebApp**
 
 
