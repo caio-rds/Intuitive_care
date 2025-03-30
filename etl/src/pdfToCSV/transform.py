@@ -3,7 +3,7 @@ import re
 from PyPDF2 import PdfReader
 
 # Caminho do arquivo CSV de saída
-csv_output_path = "output.csv"
+csv_output_path = "Teste_Caio.csv"
 pdf_path = "../../media/Anexo I.pdf"
 
 # Função para verificar a extração de texto e formatar como tabela

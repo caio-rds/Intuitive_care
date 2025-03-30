@@ -9,7 +9,16 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./backend/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./queries/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./data/Relatorio_cadop.csv:/var/lib/mysql-files/Relatorio_cadop.csv
+      - ./data/financial/1T2023.csv:/var/lib/mysql-files/financial/1T2023.csv
+      - ./data/financial/1T2024.csv:/var/lib/mysql-files/financial/1T2024.csv
+      - ./data/financial/2t2023.csv:/var/lib/mysql-files/financial/2T2023.csv
+      - ./data/financial/2T2024.csv:/var/lib/mysql-files/financial/2T2024.csv
+      - ./data/financial/3T2023.csv:/var/lib/mysql-files/financial/3T2023.csv
+      - ./data/financial/3T2024.csv:/var/lib/mysql-files/financial/3T2024.csv
+      - ./data/financial/4T2023.csv:/var/lib/mysql-files/financial/4T2023.csv
+      - ./data/financial/4T2024.csv:/var/lib/mysql-files/financial/4T2024.csv
 
   backend:
     build: ./backend
