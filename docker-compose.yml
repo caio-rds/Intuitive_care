@@ -28,6 +28,8 @@ services:
       - "8000:8000"
     networks:
       - my_network
+    volumes:
+      - ./data/Relatorio_cadop.csv:/app/Relatorio_cadop.csv
 
   frontend:
     build: ./frontend

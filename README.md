@@ -2,17 +2,29 @@
 
 ## Tasks:
 - [x] WebScrapper, download de arquivos e compactação dos mesmos.
-- [ ] Vasculhar PDF e montar um CSV legível.
+- [x] Vasculhar PDF e montar um CSV legível.
 - [x] Ler arquivos, transformar e inserir em um Banco de Dados.
 - [x] API + WebAPP.
 
+## Tasks Path
+
+1. **WebScrapper, Download e Zip**: [extract.py](./etl/extract.py)
+2. **Vasculhar PDF e montar um CSV legível**: [transform.py](./etl/transform.py)
+3. **Scripts SQL para criar tabelas, tratar dados e inserir**: [init.sql](./queries/init.sql), [populate_operadoras.sql](./queries/populate_operadoras.sql), [populate_demos_contabeis.sql](./queries/populate_demos_contabeis.sql)
+4. **APP**:
+- [API BackEnd](./app/main.py)
+- [WebApp FrontEnd](./frontend/src/App.vue)
+
 ### Tecnologias
 
-> **Python** para Extração de Dados *(webScrapper ou leitura de arquivo)*, Transformação e Inserção no Banco de Dados.
+> **Python** com *Pandas* para Extração de Dados *(webScrapper ou leitura de arquivo)* e Transformação.
 >
 > **FastAPI** *(Python 3.13)* para Consulta dos Dados via **Requisições HTTP**.
 >
 >**VueJS** com *TypeScript e Vite* para o **WebApp**
+
+
+
 
 ### Como rodar o projeto com Container ?
 
