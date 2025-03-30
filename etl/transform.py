@@ -1,3 +1,4 @@
+import os
 import zipfile, pdfplumber
 import pandas as pd
 import logging
@@ -10,6 +11,7 @@ legend = {
 
 def main():
     try:
+        os.makedirs('./output', exist_ok=True)
 
         with pdfplumber.open("./download/Anexo I.pdf") as pdf:
             tables_df: list = []
@@ -25,11 +27,11 @@ def main():
             logging.info("Table extracted!")
 
             result = result.map(lambda x: legend[x] if x in legend else x)
-            result.to_csv("./demos_contabeis.csv", index=False)
+            result.to_csv("./output/demos_contabeis.csv", index=False)
             logging.info("Table saved!")
 
-        with zipfile.ZipFile('Teste_Caio_Reis.zip', 'w') as zip_file:
-            zip_file.write("./demos_contabeis.csv", arcname="anexo1.csv")
+        with zipfile.ZipFile('./output/Teste_Caio_Reis.zip', 'w') as zip_file:
+            zip_file.write("./output/demos_contabeis.csv", arcname="anexo1.csv")
 
         logging.info("Zip file created!")
     except Exception as e:
