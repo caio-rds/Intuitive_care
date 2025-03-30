@@ -10,7 +10,7 @@
 
 1. **WebScrapper, Download e Zip**: [extract.py](./etl/extract.py)
 2. **Vasculhar PDF e montar um CSV legível**: [transform.py](./etl/transform.py)
-3. **Scripts SQL para criar tabelas, tratar dados e inserir**: [init.sql](./queries/init.sql), [populate_operadoras.sql](./queries/populate_operadoras.sql), [populate_demos_contabeis.sql](./queries/populate_demos_contabeis.sql)
+3. **Scripts SQL para criar tabelas, tratar dados e inserir**: [init.sql](./queries/init.sql), [populate_operadoras.sql](./queries/populate_operadoras.sql), [populate_demos_contabeis.sql](./queries/populate_demos_contabeis.sql), [analytcs.sql](./queries/analytcs.sql)
 4. **APP**:
 - [API BackEnd](./backend/src/main.py)
 - [WebApp FrontEnd](./frontend/src/App.vue)
