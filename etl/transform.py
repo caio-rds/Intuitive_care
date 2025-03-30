@@ -3,7 +3,7 @@ import re
 from PyPDF2 import PdfReader
 
 csv_output_path = "Teste_Caio.csv"
-pdf_path = "../download/Anexo I.pdf"
+pdf_path = "download/Anexo I.pdf"
 
 def verify_pdf_extraction():
     reader = PdfReader(pdf_path)

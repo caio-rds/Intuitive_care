@@ -17,7 +17,7 @@ logging.info('Page content parsed successfully.')
 attachments = soup.find_all('a', string=['Anexo I.', 'Anexo II.'])
 logging.info('Found the links to the attachments.')
 
-with zipfile.ZipFile('../download/attachments.zip', 'w') as zipf:
+with zipfile.ZipFile('download/attachments.zip', 'w') as zipf:
     for link in attachments:
         url = link['href']
         name = f'{link.string}pdf'
