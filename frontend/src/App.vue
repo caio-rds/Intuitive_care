@@ -33,6 +33,7 @@ const responseData = ref<ResponseItem[]>([]);
 const selectedValue = ref<ResponseItem | null>(null);
 const usingMockData = ref(false);
 const searchNotFound = ref(false);
+const mockBackEnd = ref(false);
 
 axios.interceptors.response.use(
     response => response,
@@ -56,7 +57,7 @@ const fetchData = async () => {
       return;
     }
     const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/search?name=${inputValue.value}`,
+        `${import.meta.env.VITE_API_URL}/search?name=${inputValue.value}&mock=${mockBackEnd.value}`,
         { headers: { "Access-Control-Allow-Origin": "*" } }
     );
     if (response.status === 200) {
@@ -96,6 +97,10 @@ const fetchData = async () => {
     }
   }
 };
+const handleSelectChange = (event: Event) => {
+  const selectElement = event.target as HTMLSelectElement;
+  mockBackEnd.value = selectElement.value === '1';
+};
 </script>
 
 <template>
@@ -112,6 +117,10 @@ const fetchData = async () => {
             placeholder="Buscar por operadora de saúde..."
             class="sk-input"
           />
+          <select class="sk-select" @change="handleSelectChange">
+            <option value="0">Banco de Dados</option>
+            <option value="1">Dados Mocados</option>
+          </select>
           <button @click="fetchData" class="sk-button sk-button-primary">
             <svg
               width="16"

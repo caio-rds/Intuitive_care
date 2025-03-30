@@ -89,3 +89,32 @@ button:focus-visible {
   justify-content: space-between;
   align-items: center;
 }
+
+select {
+  width: 360px;
+  appearance: none;
+  -webkit-appearance: none;
+  color: #333;
+  -moz-appearance: none;
+  background-color: #fff;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-family: inherit;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+  outline: none;
+  border-radius: 8px;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14l-4.796-5.481C2.06 5.253 2.523 4.5 3.25 4.5h9.5c.727 0 1.19.753.799 1.159l-4.796 5.481a1 1 0 0 1-1.506 0z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1em;
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+option {
+    background-color: #fff;
+    color: #333;
+}
