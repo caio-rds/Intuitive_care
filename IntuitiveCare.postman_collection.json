@@ -13,14 +13,6 @@
 				"header": []
 			},
 			"response": []
-		},
-		{
-			"name": "Read By Name Mock",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
 		}
 	]
 }
